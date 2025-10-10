@@ -11,7 +11,12 @@ public static class BeginSampleTalentTree {
         TalentNode mk(string id, string title, TalentType t, int max, float[] vals, params (string,int)[] req) {
             var so = ScriptableObject.CreateInstance<TalentNode>();
             so.id = id; so.title = title; so.type = t; so.maxRank = max; so.valuesPerRank = vals;
-            foreach (var r in req) so.requires.Add(new TalentPrereq{ nodeId=r.Item1, requiredRank=r.Item2});
+            foreach (var r in req) {
+                so.requirements.Add(new TalentRequirement {
+                    nodeId = r.Item1,
+                    requiredRank = r.Item2
+                });
+            }
             AssetDatabase.CreateAsset(so, $"Assets/Resources/Talents/{id}.asset");
             return so;
         }
