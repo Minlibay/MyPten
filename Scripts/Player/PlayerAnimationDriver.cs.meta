@@ -3,9 +3,13 @@ guid: 5aa9174dbe3f4f3e8c6f0991cb0d85df
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - animator: {instanceID: 0}
+  - idleClip: {fileID: -6206981513316247533, guid: c346a9e2503cda64ba4698db6aa5e707, type: 3}
+  - walkClip: {fileID: 5987713911036300057, guid: 081930da5e255e348940373200bbeaca, type: 3}
+  - runClip: {fileID: 5987713911036300057, guid: 081930da5e255e348940373200bbeaca, type: 3}
   executionOrder: 0
-  icon: {fileID: 0}
-  userData:
-  assetBundleName:
-  assetBundleVariant:
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

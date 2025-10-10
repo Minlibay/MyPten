@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 988fefd40c70c4243ac399fce021190a
+guid: bcc776b01a8a36c4f9ebbf4cc4517da3
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable:
@@ -7,8 +7,8 @@ ModelImporter:
       74: 416870459326255563
     second: tpose
   - first:
-      74: 2010763096457517216
-    second: FallingLoop
+      74: 7764034356917647397
+    second: RunBackward
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -42,7 +42,7 @@ ModelImporter:
       takeName: tpose
       internalID: 0
       firstFrame: 0
-      lastFrame: 2
+      lastFrame: 1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -67,14 +67,14 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: FallingLoop
-      takeName: human_male_falling_01
+      name: RunBackward
+      takeName: human_male_runbackward_01
       internalID: 0
       firstFrame: 2
-      lastFrame: 64
+      lastFrame: 42
       wrapMode: 0
       orientationOffsetY: 0
-      level: -0.3
+      level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
@@ -578,19 +578,19 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: FallingLoop(Clone)
+    - name: RunBackward(Clone)
       parentName: 
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Armature
-      parentName: FallingLoop(Clone)
+      parentName: RunBackward(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Root_M
       parentName: Armature
-      position: {x: -1.9984014e-17, y: 1.058651, z: -0.013022041}
+      position: {x: -1.7763568e-17, y: 1.058651, z: -0.013022041}
       rotation: {x: 0.49653503, y: -0.50344115, z: -0.49653503, w: 0.50344115}
       scale: {x: 1, y: 1, z: 1}
     - name: Spine1_M
@@ -1034,10 +1034,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 215058
-  packageName: FREE - 32 RPG Animations
-  packageVersion: 1.1
-  assetPath: Assets/Blink/Art/Animations/Animations_Starter_Pack/Movement/FallingLoop.fbx
-  uploadId: 489767

@@ -810,6 +810,8 @@ GameObject:
   - component: {fileID: 927293947}
   - component: {fileID: 927293953}
   - component: {fileID: 927293952}
+  - component: {fileID: 927293954}
+  - component: {fileID: 927293955}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -830,7 +832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Begin.Control.PlayerController
   moveSpeed: 6
-  cam: {fileID: 1289861562}
+  cam: {fileID: 0}
 --- !u!143 &927293948
 CharacterController:
   m_ObjectHideFlags: 0
@@ -921,7 +923,7 @@ Transform:
   m_GameObject: {fileID: 927293946}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.870004, y: 0.965, z: 5.7599974}
+  m_LocalPosition: {x: 15.870004, y: 1.038, z: -206.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -956,6 +958,92 @@ MonoBehaviour:
   baseHP: 100
   max: 100
   current: 0
+--- !u!114 &927293954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927293946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa9174dbe3f4f3e8c6f0991cb0d85df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Begin.Player.PlayerAnimationDriver
+  animator: {fileID: 0}
+  locomotionMode: 1
+  speedParameter: Speed
+  movingParameter: IsMoving
+  speedDampTime: 0.12
+  movingThreshold: 0.05
+  autoLoadBlinkClips: 1
+  blinkAnimations:
+    idle: {fileID: -6206981513316247533, guid: 1cda9ec66fdf8ed409d9cfd1997387a3, type: 3}
+    combatIdle: {fileID: 7831638795069683802, guid: 248146b68218df34c9ed1a14ba7a443b, type: 3}
+    runForward: {fileID: 5987713911036300057, guid: fa937d46a541f8146a7b3a4e2dfab077, type: 3}
+    sprint: {fileID: 7212731245373533189, guid: 9582bcbc9e53393498018d88a2e3d810, type: 3}
+    runLeft: {fileID: -4202689071170738779, guid: ecebdda207a12234baec4b9ed7437bb7, type: 3}
+    runRight: {fileID: -4630368382552359268, guid: 8a789aac038bc5440bf218d98688f858, type: 3}
+    strafeLeft: {fileID: 4441689202737928833, guid: fbb847f7dd96db14ca985df925ad6f99, type: 3}
+    strafeRight: {fileID: 6696562598943781112, guid: d416d8f06d2701349b551f54fdf1f329, type: 3}
+    runBackward: {fileID: 7764034356917647397, guid: bcc776b01a8a36c4f9ebbf4cc4517da3, type: 3}
+    runBackwardLeft: {fileID: -4735015280997533841, guid: 8350bdeb99f23874899076c6ada1d4c6, type: 3}
+    runBackwardRight: {fileID: -7389477731753489851, guid: bf43afa439430594680dcc1d9ac37cd0, type: 3}
+    jump: {fileID: 8315546878889615532, guid: fea261a1778bf3046b284d5a919c3513, type: 3}
+    jumpWhileRunning: {fileID: 0}
+    fallingLoop: {fileID: -6206981513316247533, guid: 1cda9ec66fdf8ed409d9cfd1997387a3, type: 3}
+    rollForward: {fileID: -5793807499516084442, guid: 61477c0d16da834448bab2b6157ea60c, type: 3}
+    rollLeft: {fileID: -1665424970679415873, guid: 57da5e54220f39745976330e6b6a2b0e, type: 3}
+    rollRight: {fileID: -8808072206245539448, guid: d5cc04583cd7c804588be52835f842dd, type: 3}
+    rollBackward: {fileID: 3296597183126304443, guid: f83792e47332d9f48bd64abf0b6eddd6, type: 3}
+    punchLeft: {fileID: 0}
+    punchRight: {fileID: 0}
+    oneHandedMeleeAttack: {fileID: 0}
+    twoHandedMeleeAttack: {fileID: 0}
+    magicAttack: {fileID: 0}
+    spellCastingLoop: {fileID: 0}
+    bowShot: {fileID: 0}
+    buffOrBoost: {fileID: 0}
+    getHit: {fileID: 0}
+    blockingLoop: {fileID: 0}
+    stunnedLoop: {fileID: 0}
+    death: {fileID: 7160605529220437193, guid: 6d63f48bf2bc2e64a9295d5b1a4b44bf, type: 3}
+    gathering: {fileID: 0}
+    mining: {fileID: 0}
+  idleThreshold: 0.12
+  strafeThreshold: 0.28
+  sprintThreshold: 0.78
+  locomotionResponsiveness: 9
+  startInCombatIdle: 1
+  actionFadeIn: 0.15
+  actionFadeOut: 0.25
+--- !u!54 &927293955
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927293946}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!21 &1038523503
 Material:
   serializedVersion: 8
@@ -2080,7 +2168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Begin.Battleflow.BattleManager
   playerAvatarPrefab: {fileID: 1948535115976630, guid: f7902c99c75cad34f934860c6b6ddd9e, type: 3}
-  playerAvatarOffset: {x: 0, y: -1, z: 0}
+  playerAvatarOffset: {x: 0, y: 0, z: 0}
+  autoAlignPlayerAvatar: 1
 --- !u!4 &1606794918
 Transform:
   m_ObjectHideFlags: 0

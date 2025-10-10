@@ -1,21 +1,14 @@
 fileFormatVersion: 2
-guid: 081930da5e255e348940373200bbeaca
-AssetOrigin:
-  serializedVersion: 1
-  productId: 215058
-  packageName: FREE - 32 RPG Animations
-  packageVersion: 1.1
-  assetPath: Assets/Blink/Art/Animations/Animations_Starter_Pack/Movement/RunForward.fbx
-  uploadId: 489767
+guid: bf43afa439430594680dcc1d9ac37cd0
 ModelImporter:
-  serializedVersion: 24200
+  serializedVersion: 19301
   internalIDToNameTable:
   - first:
       74: 416870459326255563
     second: tpose
   - first:
-      74: 5987713911036300057
-    second: RunForward
+      74: -7389477731753489851
+    second: RunBackwardRight
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -27,13 +20,11 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
-    removeConstantScaleCurves: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'human_male_run_01' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'Scapula_L' has translation animation that
-      will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -59,7 +50,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 0
-      loopBlend: 1
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -76,11 +67,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: RunForward
-      takeName: human_male_run_01
+      name: RunBackwardRight
+      takeName: human_male_runbackwardright_01
       internalID: 0
       firstFrame: 2
-      lastFrame: 22
+      lastFrame: 42
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -103,7 +94,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -112,38 +103,27 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
-    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
-    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
-    optimizeBones: 1
-    generateMeshLods: 0
-    meshLodGenerationFlags: 0
-    maximumMeshLod: -1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
-    secondaryUVMarginMethod: 0
-    secondaryUVMinLightmapResolution: 40
-    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -598,19 +578,19 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: RunForward(Clone)
+    - name: RunBackwardRight(Clone)
       parentName: 
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Armature
-      parentName: RunForward(Clone)
+      parentName: RunBackwardRight(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Root_M
       parentName: Armature
-      position: {x: -1.9984014e-17, y: 1.058651, z: -0.013022041}
+      position: {x: -1.7763568e-17, y: 1.058651, z: -0.013022041}
       rotation: {x: 0.49653503, y: -0.50344115, z: -0.49653503, w: 0.50344115}
       scale: {x: 1, y: 1, z: 1}
     - name: Spine1_M
@@ -625,7 +605,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: Chest_M
       parentName: Spine2_M
-      position: {x: -0.08937383, y: 3.1974422e-16, z: 2.0677903e-16}
+      position: {x: -0.08937383, y: 3.1974422e-16, z: 2.0674236e-16}
       rotation: {x: 0, y: 0, z: 0.046256915, w: 0.9989296}
       scale: {x: 1, y: 1, z: 1}
     - name: Neck_M
@@ -1050,9 +1030,6 @@ ModelImporter:
   animationType: 3
   humanoidOversampling: 1
   avatarSetup: 1
-  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
-  importBlendShapeDeformPercent: 0
-  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
