@@ -6,7 +6,7 @@ namespace Begin.Talents {
     public enum TalentType { MaxHP, Damage, GoldGain, ItemDropChance, VendorDiscount, MoveSpeed }
 
     [Serializable]
-    public class TalentPrereq {
+    public class TalentRequirement {
         public string nodeId;   // id узла, который должен иметь ранг >= requiredRank
         public int requiredRank = 1;
     }
@@ -19,7 +19,7 @@ namespace Begin.Talents {
         public TalentType type;
         public int maxRank = 3;
         public float[] valuesPerRank = new float[] { 5, 10, 15 };  // значение эффекта на рангах
-        public List<TalentPrereq> requires = new();                // зависимости
+        public List<TalentRequirement> requirements = new();       // зависимости
 
         public float GetValueAt(int rank) {
             rank = Mathf.Clamp(rank, 0, maxRank);

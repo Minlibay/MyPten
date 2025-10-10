@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 50877aa107d543547a05085269524729, type: 3}
-  m_Name: tank
+  m_Name: boss
   m_EditorClassIdentifier: Assembly-CSharp::Begin.Enemies.EnemyDefinition
-  id: tank
-  displayName: "\u0422\u0430\u043D\u043A"
-  maxHP: 200
-  moveSpeed: 2.2
-  touchDamage: 16
-  touchInterval: 1.1
-  xpPerKill: 12
-  goldMin: 2
-  goldMax: 5
-  itemDropChance: 0.18
+  id: boss
+  displayName: "Босс"
+  maxHP: 800
+  moveSpeed: 1.8
+  touchDamage: 30
+  touchInterval: 0.9
+  xpPerKill: 120
+  goldMin: 10
+  goldMax: 20
+  itemDropChance: 0.35
   prefab: {fileID: 0}

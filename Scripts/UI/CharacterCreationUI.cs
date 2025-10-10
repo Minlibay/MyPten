@@ -76,6 +76,7 @@ void BuildClassButtons() {
 
         public void OnClearProfile() {
             PlayerProfile.Clear();
+            if (GameManager.I) GameManager.I.CurrentProfile = null;
             RefreshUI();
         }
     }
