@@ -2,8 +2,7 @@
     "name": "Begin.EditModeTests",
     "rootNamespace": "Begin.Tests",
     "references": [
-        "Assembly-CSharp",
-        "UnityEditor.TestRunner"
+        "Assembly-CSharp"
     ],
     "includePlatforms": [
         "Editor"
