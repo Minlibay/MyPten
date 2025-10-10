@@ -7,7 +7,7 @@ namespace Begin.EditorTools {
     public static class BeginTalentPanelBuilder {
         [MenuItem("Tools/Begin/Create ▸ Talents Panel (Auto)")]
         public static void CreatePanel() {
-            var canvas = Object.FindObjectOfType<Canvas>()?.transform;
+            var canvas = Object.FindFirstObjectByType<Canvas>()?.transform;
             if (!canvas) {
                 var go = new GameObject("Canvas", typeof(RectTransform));
                 var c = go.AddComponent<Canvas>(); c.renderMode = RenderMode.ScreenSpaceOverlay;

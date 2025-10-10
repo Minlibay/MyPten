@@ -196,7 +196,7 @@ namespace Begin.Battleflow {
         }
 
         void EnsureEventSystem() {
-            if (!FindObjectOfType<UnityEngine.EventSystems.EventSystem>()) {
+            if (!UnityEngine.Object.FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>()) {
                 var es = new GameObject("EventSystem");
                 es.AddComponent<UnityEngine.EventSystems.EventSystem>();
                 // если есть новый Input System — добавим его модуль, иначе старый
