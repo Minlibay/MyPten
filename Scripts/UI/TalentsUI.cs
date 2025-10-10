@@ -21,6 +21,10 @@ namespace Begin.UI {
             }
 
             if (tree == null) {
+                tree = Resources.LoadAll<TalentTree>("Talents").FirstOrDefault();
+            }
+
+            if (tree == null) {
                 Debug.LogWarning("TalentsUI: no talent tree assigned, skipping rebuild.", this);
                 return;
             }

@@ -20,6 +20,6 @@ MonoBehaviour:
   valuesPerRank:
   - 40
   - 60
-  requires:
+  requirements:
   - nodeId: hp_1
     requiredRank: 3

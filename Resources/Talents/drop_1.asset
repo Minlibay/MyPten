@@ -20,4 +20,4 @@ MonoBehaviour:
   valuesPerRank:
   - 5
   - 10
-  requires: []
+  requirements: []

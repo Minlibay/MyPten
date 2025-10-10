@@ -56,9 +56,12 @@ namespace Begin.Talents {
             if (r >= node.maxRank) return false;
             if (Points <= 0) return false;
             // зависимости
-            foreach (var req in node.requires){
-                int have = GetRank(req.nodeId);
-                if (have < req.requiredRank) return false;
+            if (node.requirements != null){
+                foreach (var req in node.requirements){
+                    if (req == null || string.IsNullOrEmpty(req.nodeId)) continue;
+                    int have = GetRank(req.nodeId);
+                    if (have < req.requiredRank) return false;
+                }
             }
             return true;
         }
