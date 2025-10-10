@@ -2,7 +2,7 @@
     "name": "Begin.EditModeTests",
     "rootNamespace": "Begin.Tests",
     "references": [
-        "Assembly-CSharp"
+        "GUID:6c6c5a0f4c9e4f7ca00e51fb0f2f07e2"
     ],
     "includePlatforms": [
         "Editor"
