@@ -13,6 +13,8 @@ namespace Begin.AI {
 
         Health _health;
 
+        Health _health;
+
         void Awake() {
             _health = GetComponent<Health>();
             ApplyDefinition(true);
