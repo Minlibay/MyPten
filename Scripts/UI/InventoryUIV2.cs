@@ -32,15 +32,15 @@ namespace Begin.UI {
             foreach (Transform t in slotsContainer) Destroy(t.gameObject);
 
             // ЛЕВАЯ КОЛОНКА — предметы
-            foreach (var id in InventoryService.Items.ToList()) {
-                var def = ItemDB.Get(id);
+            foreach (var slot in InventoryService.Slots) {
+                if (slot.IsEmpty) continue;
+                var def = slot.Definition;
                 if (def == null) continue;
 
                 var btn = Instantiate(itemButtonPrefab, itemsContainer);
                 btn.gameObject.SetActive(true);
 
-                SetText(btn.transform, "Name", $"{def.displayName} [{def.slot}]");
-                // уже экипирован? — меняем действие
+                SetText(btn.transform, "Name", $"{def.displayName} [{def.slot}] x{slot.Quantity}");
                 bool equippedHere = IsEquipped(def.slot, def.id);
                 SetText(btn.transform, "Action", equippedHere ? "Снят" : "Экип.");
 
@@ -80,7 +80,11 @@ namespace Begin.UI {
             // Статы
             int hpBonus = InventoryService.TotalHpBonus(ItemDB.Get);
             int dmgBonus = InventoryService.TotalDamageBonus(ItemDB.Get);
-            if (statsText) statsText.text = $"HP +{hpBonus}   DMG +{dmgBonus}";
+            int strBonus = InventoryService.TotalStrengthBonus(ItemDB.Get);
+            int dexBonus = InventoryService.TotalDexterityBonus(ItemDB.Get);
+            int intBonus = InventoryService.TotalIntelligenceBonus(ItemDB.Get);
+            if (statsText)
+                statsText.text = $"HP +{hpBonus}   DMG +{dmgBonus}\nSTR +{strBonus}   DEX +{dexBonus}   INT +{intBonus}";
         }
 
         static void SetText(Transform root, string child, string value) {
