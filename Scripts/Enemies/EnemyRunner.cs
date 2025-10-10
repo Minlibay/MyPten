@@ -21,6 +21,8 @@ namespace Begin.AI {
             } else {
                 motor.Stop();
             }
+
+            ApplyTouchDamage(dist, 1.1f);
         }
     }
 }

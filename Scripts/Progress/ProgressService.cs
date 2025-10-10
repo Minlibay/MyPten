@@ -1,38 +1,31 @@
 using System;
 using UnityEngine;
+using Begin.Core;
+using Begin.PlayerData;
 using Begin.Talents;
 
 namespace Begin.Progress {
-    [Serializable] class SaveData {
-        public int level = 1;
-        public int xp = 0;
-    }
-
     public static class ProgressService {
-        const string KEY = "begin_progress";
         public static int pointsPerLevel = 1;     // сколько очков талантов давать за уровень
 
-        static SaveData _data;
         public static event Action OnChanged;
         public static event Action<int> OnLevelUp; // аргумент — новый уровень
 
-        static SaveData Data {
-            get {
-                if (_data != null) return _data;
-                if (!PlayerPrefs.HasKey(KEY)) { _data = new SaveData(); return _data; }
-                try { _data = JsonUtility.FromJson<SaveData>(PlayerPrefs.GetString(KEY)); }
-                catch { _data = new SaveData(); }
-                return _data;
-            }
+        static ProgressService() {
+            GameManager.OnProfileChanged += _ => OnChanged?.Invoke();
         }
 
+        static PlayerProfile Profile => GameManager.GetOrLoadProfile();
+
         static void Save() {
-            PlayerPrefs.SetString(KEY, JsonUtility.ToJson(Data));
+            var profile = Profile;
+            if (profile == null) return;
+            PlayerProfile.Save(profile);
             OnChanged?.Invoke();
         }
 
-        public static int Level => Mathf.Max(1, Data.level);
-        public static int XP => Mathf.Max(0, Data.xp);
+        public static int Level => Mathf.Max(1, Profile?.level ?? 1);
+        public static int XP => Mathf.Max(0, Profile?.xp ?? 0);
         public static int XPNeeded => XpRequiredFor(Level);
 
         // Формула требования XP: мягкая кривая роста
@@ -43,29 +36,35 @@ namespace Begin.Progress {
 
         public static void AddXP(int amount) {
             if (amount <= 0) return;
-            Data.xp += amount;
+            var profile = Profile;
+            if (profile == null) return;
+
+            profile.xp += amount;
 
             // Поднимаем уровни, пока хватает опыта
             bool leveled = false;
-            while (Data.xp >= XpRequiredFor(Data.level)) {
-                Data.xp -= XpRequiredFor(Data.level);
-                Data.level++;
+            while (profile.xp >= XpRequiredFor(profile.level)) {
+                profile.xp -= XpRequiredFor(profile.level);
+                profile.level++;
                 leveled = true;
 
                 // Награда за уровень: очки талантов
                 TalentService.AddPoints(pointsPerLevel);
-                OnLevelUp?.Invoke(Data.level);
+                OnLevelUp?.Invoke(profile.level);
             }
 
             Save();
 
             // небольшая страховка: если переполнение XP — обнулить хвост
-            if (Data.xp < 0) { Data.xp = 0; Save(); }
+            if (profile.xp < 0) { profile.xp = 0; Save(); }
             if (leveled) OnChanged?.Invoke();
         }
 
         public static void ResetAll() {
-            _data = new SaveData();
+            var profile = Profile;
+            if (profile == null) return;
+            profile.level = 1;
+            profile.xp = 0;
             Save();
         }
     }

@@ -9,6 +9,7 @@ namespace Begin.Enemies {
         public float maxHP = 50f;
         public float moveSpeed = 4f;
         public float touchDamage = 10f;
+        public float touchInterval = 0.75f;
 
         [Header("Rewards / Modifiers")]
         public int xpPerKill = 6;
