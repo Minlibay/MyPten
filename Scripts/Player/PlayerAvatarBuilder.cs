@@ -13,13 +13,13 @@ namespace Begin.Player {
                 playerGO = new GameObject("Player") { tag = "Player" };
             }
 
-            EnsureCoreComponents(playerGO, mainCamera);
-            InstallVisual(playerGO.transform, visualPrefab, visualOffset);
+            EnsureCoreComponents(playerGO, mainCamera, out var animationDriver);
+            InstallVisual(playerGO.transform, visualPrefab, visualOffset, animationDriver);
 
             return playerGO;
         }
 
-        static void EnsureCoreComponents(GameObject playerGO, Camera mainCamera) {
+        static void EnsureCoreComponents(GameObject playerGO, Camera mainCamera, out PlayerAnimationDriver animationDriver) {
             if (!playerGO.TryGetComponent(out CharacterController cc)) {
                 cc = playerGO.AddComponent<CharacterController>();
                 cc.height = 2f;
@@ -33,6 +33,9 @@ namespace Begin.Player {
             if (!playerGO.GetComponent<PlayerHealth>()) playerGO.AddComponent<PlayerHealth>();
             if (!playerGO.GetComponent<SimpleAttack>()) playerGO.AddComponent<SimpleAttack>();
 
+            animationDriver = playerGO.GetComponent<PlayerAnimationDriver>();
+            if (!animationDriver) animationDriver = playerGO.AddComponent<PlayerAnimationDriver>();
+
             // удалить возможные остатки меша капсулы на самом корне
             var meshFilter = playerGO.GetComponent<MeshFilter>();
             if (meshFilter) Object.Destroy(meshFilter);
@@ -40,7 +43,7 @@ namespace Begin.Player {
             if (meshRenderer) Object.Destroy(meshRenderer);
         }
 
-        static void InstallVisual(Transform root, GameObject prefab, Vector3 offset) {
+        static void InstallVisual(Transform root, GameObject prefab, Vector3 offset, PlayerAnimationDriver animationDriver) {
             var visualRoot = root.Find(VisualRootName);
             if (!visualRoot) {
                 var visualGO = new GameObject(VisualRootName);
@@ -58,8 +61,12 @@ namespace Begin.Player {
                 instance.transform.localPosition = offset;
                 instance.transform.localRotation = Quaternion.identity;
                 instance.transform.localScale = Vector3.one;
+
+                Animator animator = instance.GetComponent<Animator>() ?? instance.GetComponentInChildren<Animator>();
+                animationDriver?.BindAnimator(animator);
             } else {
                 CreateFallback(visualRoot);
+                animationDriver?.BindAnimator(null);
             }
         }
 
