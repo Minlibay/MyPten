@@ -17,6 +17,9 @@ namespace Begin.Battleflow {
         [Tooltip("Смещение префаба игрока относительно корня с CharacterController.")]
         [SerializeField] Vector3 playerAvatarOffset = Vector3.zero;
 
+        [Tooltip("Автоматически опустить модель к земле по габаритам меша и капсулы персонажа.")]
+        [SerializeField] bool autoAlignPlayerAvatar = true;
+
         BattleHUD hud;
         WaveSpawner spawner;
         PlayerHealth player;
@@ -30,7 +33,7 @@ namespace Begin.Battleflow {
             gen.Generate();
 
             // игрок
-            var playerGO = PlayerAvatarBuilder.EnsurePlayerRoot(playerAvatarPrefab, playerAvatarOffset, Camera.main);
+            var playerGO = PlayerAvatarBuilder.EnsurePlayerRoot(playerAvatarPrefab, playerAvatarOffset, autoAlignPlayerAvatar, Camera.main);
             player = playerGO.GetComponent<PlayerHealth>();
 
             // камера
