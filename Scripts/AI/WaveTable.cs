@@ -18,5 +18,10 @@ namespace Begin.AI {
     [CreateAssetMenu(menuName = "Begin/Waves/Table")]
     public class WaveTable : ScriptableObject {
         public List<WaveRow> waves = new();
+        [Header("Final Wave")]
+        public EnemyDefinition finalBoss;
+        public List<WaveEntry> bossSupport = new();
+
+        public int TotalWaves => waves.Count + (finalBoss != null ? 1 : 0);
     }
 }
