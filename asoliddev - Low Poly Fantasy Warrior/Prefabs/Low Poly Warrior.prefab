@@ -2623,7 +2623,7 @@ Transform:
   m_GameObject: {fileID: 1382472876170966}
   serializedVersion: 2
   m_LocalRotation: {x: 0.98926187, y: 0.03932478, z: -0.008358821, w: 0.14051585}
-  m_LocalPosition: {x: 0.0010880738, y: -0.00018394673, z: 0.00065347285}
+  m_LocalPosition: {x: 0.00109, y: 0.00003, z: 0.0014}
   m_LocalScale: {x: 0.99999976, y: 0.9999999, z: 0.9999979}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3358,14 +3358,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459290623222784}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6469849, y: -0.08613971, z: 0.1094469, w: 0.74967456}
-  m_LocalPosition: {x: -0.00012347414, y: 0.0022576635, z: -0.00022402716}
+  m_LocalRotation: {x: -0.5868194, y: -0.2857492, z: -0.13251941, w: 0.7459417}
+  m_LocalPosition: {x: -0.00012339426, y: 0.0022577154, z: -0.00022428823}
   m_LocalScale: {x: 0.99999994, y: 0.9999999, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4597758598827510}
   m_Father: {fileID: 4456085778501748}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -72.027, y: -61.343, z: 26.496}
 --- !u!1 &1464538912639626
 GameObject:
   m_ObjectHideFlags: 0
@@ -3739,14 +3739,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1532537191600382}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.029508226, y: 0.062202774, z: -0.07208286, w: 0.9950197}
-  m_LocalPosition: {x: -1.3504177e-10, y: 0.00044177458, z: -2.4214386e-10}
+  m_LocalRotation: {x: 0.016207792, y: 0.07461732, z: -0.22326213, w: 0.97176313}
+  m_LocalPosition: {x: 0.000000108536724, y: 0.00044231187, z: -0.000000022788303}
   m_LocalScale: {x: 0.9999997, y: 1.0000001, z: 0.9999999}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4420990842964652}
   m_Father: {fileID: 4689784873610802}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 3.716, y: 7.936, z: -25.62}
 --- !u!1 &1533661849976054
 GameObject:
   m_ObjectHideFlags: 0
@@ -5358,7 +5358,7 @@ Transform:
   m_GameObject: {fileID: 1819305683554764}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000093697935, y: 0.6969363, z: 0.71713305, w: 0.000000094622}
-  m_LocalPosition: {x: -0.00082229887, y: -0.00004966187, z: -0.00043354105}
+  m_LocalPosition: {x: -0.0008222989, y: -0.00004966187, z: -0.00043354105}
   m_LocalScale: {x: 1, y: 0.9999999, z: 0.99999994}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6263,8 +6263,11 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_AnimatePhysics: 1
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'upper_arm.L'\n\tTransform 'upper_arm.R'\n\tTransform
+    'upper_arm.L'\n\tTransform 'upper_arm.R'\n\tFrom animation clip 'walk'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -6358,7 +6361,7 @@ Transform:
   m_GameObject: {fileID: 1959361118132160}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.0016244719, z: 0}
+  m_LocalPosition: {x: -0, y: 0.001624472, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
