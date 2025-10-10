@@ -15,6 +15,7 @@ namespace Begin.UI {
 
         void OnEnable() {
             ItemDB.Warmup();
+            InventoryService.OnChanged += Rebuild;
 
             // если невалидный/пустой список — обновим
             if (vendor != null) {
@@ -25,6 +26,10 @@ namespace Begin.UI {
             }
 
             Rebuild();
+        }
+
+        void OnDisable() {
+            InventoryService.OnChanged -= Rebuild;
         }
 
         void Update() { if (goldText) goldText.text = "Gold: " + Currency.Gold; }
@@ -54,13 +59,15 @@ namespace Begin.UI {
 
             // Продажа
             int createdSell = 0;
-            foreach (var id in InventoryService.Items) {
-                var def = ItemDB.Get(id); if (def == null) continue;
+            foreach (var slot in InventoryService.Slots) {
+                if (slot.IsEmpty) continue;
+                var def = slot.Definition; if (def == null) continue;
                 var b = Instantiate(sellButtonPrefab, sellContainer);
                 b.gameObject.SetActive(true);
-                SetText(b.transform, "Name", $"Продать: {def.displayName}");
+                SetText(b.transform, "Name", $"Продать: {def.displayName} x{slot.Quantity}");
                 SetText(b.transform, "Price", "+" + vendor.SellPrice(def.id) + "g");
-                b.onClick.AddListener(()=> { if (vendor.Sell(def.id)) Rebuild(); });
+                int captured = slot.Index;
+                b.onClick.AddListener(()=> { if (vendor.SellSlot(captured)) Rebuild(); });
                 createdSell++;
             }
             if (createdSell == 0) {
