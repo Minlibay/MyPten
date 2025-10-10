@@ -11,10 +11,12 @@ namespace Begin.AI {
         public float touchDamage;
         public float touchInterval;
 
-        Health _cachedHealth;
+        Health _health;
+
+        Health _health;
 
         void Awake() {
-            _cachedHealth = GetComponent<Health>();
+            _health = GetComponent<Health>();
             ApplyDefinition(true);
         }
 
@@ -23,14 +25,14 @@ namespace Begin.AI {
             moveSpeed = def.moveSpeed;
             touchDamage = def.touchDamage;
             touchInterval = Mathf.Max(0.1f, def.touchInterval);
-            if (_cachedHealth) {
-                _cachedHealth.autoDestroy = false;
-                _cachedHealth.SetMax(def.maxHP, refill);
+            if (_health) {
+                _health.autoDestroy = false;
+                _health.SetMax(def.maxHP, refill);
             }
         }
 
         public void OnSpawned() { ApplyDefinition(true); }
 
-        public void OnDespawned() { if (_cachedHealth) _cachedHealth.ResetState(true); }
+        public void OnDespawned() { if (_health) _health.ResetState(true); }
     }
 }
