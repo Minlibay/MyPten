@@ -10,6 +10,13 @@ using Begin.Player;
 
 namespace Begin.Battleflow {
     public class BattleManager : MonoBehaviour {
+        [Header("Player Avatar")]
+        [Tooltip("Префаб с визуалом игрока (например, Low Poly Fantasy Warrior). Если не задан — появится капсула.")]
+        [SerializeField] GameObject playerAvatarPrefab;
+
+        [Tooltip("Смещение префаба игрока относительно корня с CharacterController.")]
+        [SerializeField] Vector3 playerAvatarOffset = Vector3.zero;
+
         BattleHUD hud;
         WaveSpawner spawner;
         PlayerHealth player;
@@ -23,7 +30,7 @@ namespace Begin.Battleflow {
             gen.Generate();
 
             // игрок
-            var playerGO = PlayerAvatarUtility.EnsurePlayerRoot(Camera.main);
+            var playerGO = PlayerAvatarBuilder.EnsurePlayerRoot(playerAvatarPrefab, playerAvatarOffset, Camera.main);
             player = playerGO.GetComponent<PlayerHealth>();
 
             // камера
