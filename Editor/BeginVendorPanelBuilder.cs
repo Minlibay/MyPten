@@ -85,7 +85,7 @@ namespace Begin.EditorTools {
 
         // ---------- helpers ----------
         static GameObject EnsureCanvas() {
-            var canvas = UnityEngine.Object.FindObjectOfType<Canvas>();
+            var canvas = UnityEngine.Object.FindFirstObjectByType<Canvas>();
             if (canvas != null && canvas.renderMode == RenderMode.ScreenSpaceOverlay) return canvas.gameObject;
             var go = new GameObject("Canvas", typeof(RectTransform));
             var c = go.AddComponent<Canvas>(); c.renderMode = RenderMode.ScreenSpaceOverlay;
@@ -95,7 +95,7 @@ namespace Begin.EditorTools {
         }
 
         static void EnsureEventSystem() {
-            if (UnityEngine.Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>()) return;
+            if (UnityEngine.Object.FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>()) return;
             var es = new GameObject("EventSystem");
             es.AddComponent<UnityEngine.EventSystems.EventSystem>();
             var inputSystemUiType = Type.GetType("UnityEngine.InputSystem.UI.InputSystemUIInputModule, Unity.InputSystem");

@@ -8,7 +8,7 @@ namespace Begin.EditorTools {
         [MenuItem("Tools/Begin/Create ▸ Progress HUD (Level + XP)")]
         public static void CreateHUD() {
             // Canvas
-            var canvas = Object.FindObjectOfType<Canvas>();
+            var canvas = Object.FindFirstObjectByType<Canvas>();
             if (!canvas) {
                 var go = new GameObject("Canvas", typeof(RectTransform));
                 var c = go.AddComponent<Canvas>(); c.renderMode = RenderMode.ScreenSpaceOverlay;

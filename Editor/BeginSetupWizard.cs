@@ -83,10 +83,10 @@ public static class BeginSetupWizard {
     }
 
     static void EnsureGameManager() {
-        if (Object.FindObjectOfType<GameManager>() == null) {
+        if (Object.FindFirstObjectByType<GameManager>() == null) {
             new GameObject("GameManager").AddComponent<GameManager>();
         }
-        if (Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null) {
+        if (Object.FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() == null) {
             var es = new GameObject("EventSystem");
             es.AddComponent<UnityEngine.EventSystems.EventSystem>();
             es.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
