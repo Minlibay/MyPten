@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: SampleTree
+  m_EditorClassIdentifier: Assembly-CSharp:Begin.Talents:TalentTree
+  nodes:
+  - {fileID: 11400000, guid: a0a03c67ac05f8643b4f3fab0c3d2791, type: 2}
+  - {fileID: 11400000, guid: 9114cbcb8a181ce45b85c37d0eb80220, type: 2}
+  - {fileID: 11400000, guid: 40566b3b83c6a3a4880c1e56bcd0bc49, type: 2}
+  - {fileID: 11400000, guid: 8ddcf5973613ef24b897b1cd1722c138, type: 2}
+  - {fileID: 11400000, guid: 8946751696e3266498e0583b06800c8e, type: 2}
+  - {fileID: 11400000, guid: ed80f9fa2b61e2f4c905b90090173341, type: 2}
+  - {fileID: 11400000, guid: 970f1f5a61d19264289614bb6d839953, type: 2}

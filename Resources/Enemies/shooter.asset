@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50877aa107d543547a05085269524729, type: 3}
+  m_Name: shooter
+  m_EditorClassIdentifier: Assembly-CSharp::Begin.Enemies.EnemyDefinition
+  id: shooter
+  displayName: "\u0421\u0442\u0440\u0435\u043B\u043E\u043A"
+  maxHP: 90
+  moveSpeed: 3.2
+  touchDamage: 0
+  xpPerKill: 8
+  goldMin: 1
+  goldMax: 3
+  itemDropChance: 0.15
+  prefab: {fileID: 0}

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c6e0fa4bbc8ac4180dc68ee6e7405d, type: 3}
+  m_Name: Warrior
+  m_EditorClassIdentifier: Assembly-CSharp::Begin.PlayerData.CharacterClass
+  id: warrior
+  displayName: "\u0412\u043E\u0438\u043D"
+  icon: {fileID: 0}
+  baseHP: 120
+  baseSTR: 8
+  baseDEX: 5
+  baseINT: 5
+  description: "\u0416\u0438\u0432\u0443\u0447\u0438\u0439 \u0431\u043E\u0435\u0446
+    \u0431\u043B\u0438\u0436\u043D\u0435\u0433\u043E \u0431\u043E\u044F."
