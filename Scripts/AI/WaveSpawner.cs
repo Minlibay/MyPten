@@ -31,6 +31,13 @@ namespace Begin.AI {
         IEnumerator Run() {
             if (!table) yield break;
 
+            // дождаться появления игрока (например, если он создаётся менеджером сцены)
+            while (!player) {
+                var found = GameObject.FindGameObjectWithTag("Player");
+                if (found) player = found.transform;
+                else yield return null;
+            }
+
             PreparePools();
 
             int total = table.TotalWaves;
@@ -112,7 +119,17 @@ namespace Begin.AI {
             EnsurePoolCapacity(def, 1);
 
             var go = Pool.Spawn(key, pos, Quaternion.identity);
+
+            if (!go) {
+                // аварийный путь: если пул пуст, создаём экземпляр напрямую
+                var prefab = BuildRuntimePrefab(def);
+                go = Instantiate(prefab, pos, Quaternion.identity);
+                Object.Destroy(prefab);
+            }
+
             if (!go) return null;
+
+            go.transform.position = pos;
 
             // назначаем логику/цель
             var stats = go.GetComponent<EnemyStats>();
@@ -121,7 +138,13 @@ namespace Begin.AI {
                 stats.ApplyDefinition(true);
             }
 
+            if (!player) player = GameObject.FindGameObjectWithTag("Player")?.transform;
+
             if (go.TryGetComponent<EnemyBase>(out var ai)) ai.Init(player);
+
+            var tracker = go.GetComponent<WaveSpawnedEnemy>();
+            if (!tracker) tracker = go.AddComponent<WaveSpawnedEnemy>();
+            tracker.Attach(this);
 
             return go;
         }
@@ -133,6 +156,7 @@ namespace Begin.AI {
             int current = _poolCapacities.TryGetValue(key, out var have) ? have : 0;
             if (desired <= current) return;
             var prefab = BuildRuntimePrefab(def);
+            prefab.SetActive(false);
             Pool.Prewarm(key, prefab, desired - current);
             Object.Destroy(prefab);
             _poolCapacities[key] = current + (desired - current);
@@ -159,7 +183,7 @@ namespace Begin.AI {
             motor.turnSpeed = 540f;
 
             // здоровье
-            var health = root.AddComponent<Health>();
+            root.AddComponent<Health>();
 
             // статы и поведение
             var stats = root.AddComponent<EnemyStats>();
@@ -172,10 +196,12 @@ namespace Begin.AI {
             // лут/награда
             root.AddComponent<EnemyLoot>();
 
-            // при смерти — убрать из alive и вернуть в пул
-            health.onDeath += () => { StartCoroutine(DespawnNextFrame(root)); };
-
             return root;
+        }
+
+        internal void OnSpawnedEnemyDeath(GameObject go) {
+            if (!go) return;
+            StartCoroutine(DespawnNextFrame(go));
         }
 
         IEnumerator DespawnNextFrame(GameObject go) {
