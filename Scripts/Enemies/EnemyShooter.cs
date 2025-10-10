@@ -27,6 +27,8 @@ namespace Begin.AI {
                 cooldown = fireInterval;
                 Shoot(dir);
             }
+
+            ApplyTouchDamage(dist, 0.9f);
         }
 
         void Shoot(Vector3 dirToPlayer) {

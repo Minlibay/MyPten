@@ -12,13 +12,23 @@ namespace Begin.UI {
         public Button respecButton;
 
         void OnEnable() {
+            if (tree == null) {
+                Debug.LogWarning("TalentsUI: no talent tree assigned, skipping rebuild.", this);
+                return;
+            }
+
             TalentService.BindTree(tree);
             TalentService.OnChanged += Rebuild;
             Rebuild();
         }
-        void OnDisable() { TalentService.OnChanged -= Rebuild; }
+
+        void OnDisable() {
+            TalentService.OnChanged -= Rebuild;
+        }
 
         public void Rebuild() {
+            if (tree == null || listContainer == null || rowPrefab == null) return;
+
             foreach (Transform t in listContainer) Destroy(t.gameObject);
 
             foreach (var node in tree.nodes) {
