@@ -6,9 +6,17 @@ using Begin.UI;
 using Begin.Combat;
 using Begin.Talents;
 using Begin.Progress;
+using Begin.Player;
 
 namespace Begin.Battleflow {
     public class BattleManager : MonoBehaviour {
+        [Header("Player Avatar")]
+        [Tooltip("Префаб с визуалом игрока (например, Low Poly Fantasy Warrior). Если не задан — появится капсула.")]
+        [SerializeField] GameObject playerAvatarPrefab;
+
+        [Tooltip("Смещение префаба игрока относительно корня с CharacterController.")]
+        [SerializeField] Vector3 playerAvatarOffset = Vector3.zero;
+
         BattleHUD hud;
         WaveSpawner spawner;
         PlayerHealth player;
@@ -22,17 +30,8 @@ namespace Begin.Battleflow {
             gen.Generate();
 
             // игрок
-            var playerGO = GameObject.FindWithTag("Player");
-            if (!playerGO) {
-                playerGO = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-                playerGO.name = "Player"; playerGO.tag = "Player";
-                Object.Destroy(playerGO.GetComponent<CapsuleCollider>());
-                var cc = playerGO.AddComponent<CharacterController>();
-                cc.center = new Vector3(0,1,0); cc.height = 2;
-                playerGO.AddComponent<Begin.Control.PlayerController>().cam = Camera.main;
-            }
-            if (!playerGO.TryGetComponent<PlayerHealth>(out player)) player = playerGO.AddComponent<PlayerHealth>();
-            if (!playerGO.GetComponent<SimpleAttack>()) playerGO.AddComponent<SimpleAttack>();
+            var playerGO = PlayerAvatarBuilder.EnsurePlayerRoot(playerAvatarPrefab, playerAvatarOffset, Camera.main);
+            player = playerGO.GetComponent<PlayerHealth>();
 
             // камера
             var cam = Camera.main;
