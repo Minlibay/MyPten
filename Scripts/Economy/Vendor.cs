@@ -7,26 +7,25 @@ namespace Begin.Economy {
     public class Vendor : MonoBehaviour {
         public string[] stockIds; // текущие товары
 
-        public void RefreshStock(int count = 6) {
+        public void RefreshStock(int count = -1) {
             ItemDB.Warmup();
+            if (count <= 0) {
+                var economy = EconomyBalance.Active;
+                count = economy != null ? Mathf.Max(1, economy.defaultVendorStock) : 6;
+            }
+
             var all = ItemDB.All().OrderBy(_ => Random.value).Take(count).Select(i=> i.id).ToArray();
             stockIds = all;
         }
 
         public int Price(ItemDefinition def) {
-        float r = def.rarity switch {
-            ItemRarity.Common => 1f,
-            ItemRarity.Uncommon => 1.5f,
-            ItemRarity.Rare => 2.5f,
-            ItemRarity.Epic => 4f,
-            ItemRarity.Legendary => 8f,
-            _ => 1f
-        };
-        float basePrice = def.basePrice * r;
-        float discountPct = TalentService.Total(TalentType.VendorDiscount); // 0..100
-        float mul = Mathf.Clamp01(1f - discountPct/100f);
-        return Mathf.Max(1, Mathf.RoundToInt(basePrice * mul));
-    }
+            var economy = EconomyBalance.Active;
+            float rarityMultiplier = economy != null ? economy.GetBuyMultiplier(def.rarity) : 1f;
+            float basePrice = def.basePrice * rarityMultiplier;
+            float discountPct = TalentService.Total(TalentType.VendorDiscount); // 0..100
+            float mul = Mathf.Clamp01(1f - discountPct/100f);
+            return Mathf.Max(1, Mathf.RoundToInt(basePrice * mul));
+        }
 
         public bool Buy(string id) {
             var def = ItemDB.Get(id); if (def == null) return false;
@@ -39,7 +38,9 @@ namespace Begin.Economy {
 
         public int SellPrice(string id) {
             var def = ItemDB.Get(id); if (def == null) return 0;
-            return Mathf.RoundToInt(Price(def) * 0.4f);
+            var economy = EconomyBalance.Active;
+            float sellMultiplier = economy != null ? economy.GetSellMultiplier(def.rarity) : 0.4f;
+            return Mathf.RoundToInt(Price(def) * sellMultiplier);
         }
 
         public bool Sell(string id) {
