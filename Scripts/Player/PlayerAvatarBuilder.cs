@@ -93,6 +93,8 @@ namespace Begin.Player {
             Bounds totalBounds = default;
             foreach (var renderer in renderers) {
                 if (!renderer) continue;
+                if (!renderer.enabled) continue;
+
                 if (!hasBounds) {
                     totalBounds = renderer.bounds;
                     hasBounds = true;
@@ -103,14 +105,19 @@ namespace Begin.Player {
 
             if (!hasBounds) return Vector3.zero;
 
-            var bottomWorld = new Vector3(totalBounds.center.x, totalBounds.min.y, totalBounds.center.z);
-            var bottomLocal = visualRoot.InverseTransformPoint(bottomWorld).y;
-            var targetBottom = characterController.center.y - characterController.height * 0.5f;
-            var deltaY = targetBottom - bottomLocal;
+            var prefabBottomWorld = totalBounds.min.y;
+            var controllerTransform = characterController.transform;
+            var controllerBottomWorld = controllerTransform.position.y
+                + characterController.center.y
+                - characterController.height * 0.5f
+                + characterController.skinWidth;
+
+            var deltaY = controllerBottomWorld - prefabBottomWorld;
 
             if (Mathf.Approximately(deltaY, 0f)) return Vector3.zero;
 
-            return new Vector3(0f, deltaY, 0f);
+            var worldDelta = new Vector3(0f, deltaY, 0f);
+            return visualRoot.InverseTransformVector(worldDelta);
         }
     }
 }
