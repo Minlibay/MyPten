@@ -32,6 +32,7 @@ namespace Begin.Core {
             if (!pools.TryGetValue(key, out var q) || q.Count == 0) return null;
             var go = q.Dequeue();
             go.transform.SetPositionAndRotation(pos, rot);
+            go.transform.SetParent(null, true);
             go.SetActive(true);
             if (go.TryGetComponent<IPooled>(out var p)) p.OnSpawned();
             return go;
