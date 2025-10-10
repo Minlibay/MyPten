@@ -15,7 +15,7 @@ namespace Begin.Progress {
             GameManager.OnProfileChanged += _ => OnChanged?.Invoke();
         }
 
-        static PlayerProfile Profile => GameManager.I ? GameManager.I.CurrentProfile : null;
+        static PlayerProfile Profile => GameManager.GetOrLoadProfile();
 
         static void Save() {
             var profile = Profile;

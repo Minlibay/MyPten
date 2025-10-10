@@ -144,7 +144,7 @@ namespace Begin.AI {
 
             var tracker = go.GetComponent<WaveSpawnedEnemy>();
             if (!tracker) tracker = go.AddComponent<WaveSpawnedEnemy>();
-            tracker.Attach(this);
+            tracker.Attach(this, def);
 
             return go;
         }

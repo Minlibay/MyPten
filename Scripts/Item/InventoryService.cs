@@ -20,7 +20,7 @@ namespace Begin.Items {
             };
         }
 
-        static PlayerProfile Profile => GameManager.I ? GameManager.I.CurrentProfile : null;
+        static PlayerProfile Profile => GameManager.GetOrLoadProfile();
 
         static void RefreshCache() {
             EquippedCache.Clear();

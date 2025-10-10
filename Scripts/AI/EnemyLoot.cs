@@ -21,23 +21,37 @@ namespace Begin.AI {
 
         void OnDeath() {
             var def = stats ? stats.def : null;
-            if (def != null) {
-                // GOLD
-                float goldPct = 1f + TalentService.Total(TalentType.GoldGain) / 100f;
-                int gold = Random.Range(def.goldMin, def.goldMax + 1);
-                Currency.Give(Mathf.RoundToInt(gold * goldPct));
-
-                // ITEM
-                float chance = def.itemDropChance + TalentService.Total(TalentType.ItemDropChance)/100f;
-                if (Random.value <= chance) {
-                    ItemDB.Warmup();
-                    var pick = ItemDB.All().OrderBy(_=>Random.value).FirstOrDefault();
-                    if (pick != null) InventoryService.Give(pick.id);
-                }
-
-                // XP
-                ProgressService.AddXP(def.xpPerKill);
+            if (!def) {
+                var tracker = GetComponent<WaveSpawnedEnemy>();
+                def = tracker ? tracker.Definition : null;
             }
+            Grant(def);
+        }
+
+        public static void Grant(EnemyDefinition def) {
+            if (def == null) {
+                Debug.LogWarning("EnemyLoot: missing definition, rewards skipped", def);
+                return;
+            }
+
+            // GOLD
+            float goldPct = 1f + TalentService.Total(TalentType.GoldGain) / 100f;
+            int minGold = Mathf.Min(def.goldMin, def.goldMax);
+            int maxGold = Mathf.Max(def.goldMin, def.goldMax);
+            int gold = Random.Range(minGold, maxGold + 1);
+            int payout = Mathf.Max(0, Mathf.RoundToInt(gold * goldPct));
+            Currency.Give(payout);
+
+            // ITEM
+            float chance = def.itemDropChance + TalentService.Total(TalentType.ItemDropChance) / 100f;
+            if (Random.value <= chance) {
+                ItemDB.Warmup();
+                var pick = ItemDB.All().OrderBy(_ => Random.value).FirstOrDefault();
+                if (pick != null) InventoryService.Give(pick.id);
+            }
+
+            // XP
+            ProgressService.AddXP(Mathf.Max(0, def.xpPerKill));
         }
     }
 }

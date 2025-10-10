@@ -1,4 +1,5 @@
 using Begin.Combat;
+using Begin.Enemies;
 using UnityEngine;
 
 namespace Begin.AI {
@@ -6,14 +7,16 @@ namespace Begin.AI {
     public class WaveSpawnedEnemy : MonoBehaviour {
         WaveSpawner owner;
         Health health;
+        EnemyDefinition definition;
 
         void Awake() {
             health = GetComponent<Health>();
         }
 
-        public void Attach(WaveSpawner spawner) {
+        public void Attach(WaveSpawner spawner, EnemyDefinition def) {
             if (health) health.onDeath -= HandleDeath;
             owner = spawner;
+            definition = def;
             if (owner && health) health.onDeath += HandleDeath;
         }
 
@@ -24,6 +27,9 @@ namespace Begin.AI {
         void OnDisable() {
             if (health) health.onDeath -= HandleDeath;
             owner = null;
+            definition = null;
         }
+
+        public EnemyDefinition Definition => definition;
     }
 }

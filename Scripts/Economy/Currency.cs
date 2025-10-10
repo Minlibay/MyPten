@@ -4,7 +4,7 @@ using Begin.PlayerData;
 
 namespace Begin.Economy {
     public static class Currency {
-        static PlayerProfile Profile => GameManager.I ? GameManager.I.CurrentProfile : null;
+        static PlayerProfile Profile => GameManager.GetOrLoadProfile();
 
         public static int Gold => Profile?.gold ?? 0;
 
