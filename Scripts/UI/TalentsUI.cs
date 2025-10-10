@@ -5,20 +5,38 @@ using System.Linq;
 
 namespace Begin.UI {
     public class TalentsUI : MonoBehaviour {
+        [Tooltip("Дерево талантов, которое будет отображаться. Если не назначено, загрузим из Resources по пути ниже.")]
         public TalentTree tree;                   // закинем SampleTree
+        [SerializeField]
+        [Tooltip("Resources-путь для авто-поиска дерева, если поле tree пустое.")]
+        string treeResourcePath = "Talents/SampleTree";
         public RectTransform listContainer;       // куда класть строки
         public Button rowPrefab;                  // шаблон строки (выключен)
         public Text pointsText;
         public Button respecButton;
 
         void OnEnable() {
+            if (tree == null && !string.IsNullOrEmpty(treeResourcePath)) {
+                tree = Resources.Load<TalentTree>(treeResourcePath);
+            }
+
+            if (tree == null) {
+                Debug.LogWarning("TalentsUI: no talent tree assigned, skipping rebuild.", this);
+                return;
+            }
+
             TalentService.BindTree(tree);
             TalentService.OnChanged += Rebuild;
             Rebuild();
         }
-        void OnDisable() { TalentService.OnChanged -= Rebuild; }
+
+        void OnDisable() {
+            TalentService.OnChanged -= Rebuild;
+        }
 
         public void Rebuild() {
+            if (tree == null || listContainer == null || rowPrefab == null) return;
+
             foreach (Transform t in listContainer) Destroy(t.gameObject);
 
             foreach (var node in tree.nodes) {
