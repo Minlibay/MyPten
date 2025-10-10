@@ -167,9 +167,18 @@ namespace Begin.AI {
             var root = new GameObject(def.displayName);
 
             // визуал как child
+            Transform visual = null;
             if (def.prefab) {
                 var vis = Instantiate(def.prefab);
                 vis.transform.SetParent(root.transform, false);
+                visual = vis.transform;
+            } else {
+                var capsule = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+                capsule.name = "Visual";
+                capsule.transform.SetParent(root.transform, false);
+                if (capsule.TryGetComponent<Collider>(out var col)) col.enabled = false;
+                if (capsule.TryGetComponent<Renderer>(out var renderer)) renderer.material.color = PickColor(def);
+                visual = capsule.transform;
             }
 
             // контроллер для передвижения
@@ -178,7 +187,7 @@ namespace Begin.AI {
 
             // Мотор (вращает только визуал-ребёнка)
             var motor = root.AddComponent<EnemyMotor>();
-            motor.model = (root.transform.childCount > 0) ? root.transform.GetChild(0) : root.transform;
+            motor.model = visual ? visual : root.transform;
             motor.stoppingDistance = 1.2f;
             motor.turnSpeed = 540f;
 
@@ -197,6 +206,16 @@ namespace Begin.AI {
             root.AddComponent<EnemyLoot>();
 
             return root;
+        }
+
+        static Color PickColor(EnemyDefinition def) {
+            if (!def || string.IsNullOrEmpty(def.id)) return new Color(0.6f, 0.6f, 0.6f);
+            var id = def.id.ToLowerInvariant();
+            if (id.Contains("boss")) return new Color(0.8f, 0.2f, 0.2f);
+            if (id.Contains("tank")) return new Color(0.85f, 0.3f, 0.3f);
+            if (id.Contains("run")) return new Color(0.2f, 0.8f, 0.3f);
+            if (id.Contains("shoot")) return new Color(0.2f, 0.4f, 0.85f);
+            return new Color(0.6f, 0.6f, 0.6f);
         }
 
         internal void OnSpawnedEnemyDeath(GameObject go) {

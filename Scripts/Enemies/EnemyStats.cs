@@ -9,6 +9,9 @@ namespace Begin.AI {
         public EnemyDefinition def;
         public float moveSpeed;
         public float touchDamage;
+        public float touchInterval;
+
+        Health _health;
 
         Health _health;
 
@@ -21,6 +24,7 @@ namespace Begin.AI {
             if (!def) return;
             moveSpeed = def.moveSpeed;
             touchDamage = def.touchDamage;
+            touchInterval = Mathf.Max(0.1f, def.touchInterval);
             if (_health) {
                 _health.autoDestroy = false;
                 _health.SetMax(def.maxHP, refill);

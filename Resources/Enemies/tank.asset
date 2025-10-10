@@ -17,6 +17,7 @@ MonoBehaviour:
   maxHP: 200
   moveSpeed: 2.2
   touchDamage: 16
+  touchInterval: 1.1
   xpPerKill: 12
   goldMin: 2
   goldMax: 5
