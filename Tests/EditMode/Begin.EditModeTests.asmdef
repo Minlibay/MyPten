@@ -1,0 +1,21 @@
+{
+    "name": "Begin.EditModeTests",
+    "rootNamespace": "Begin.Tests",
+    "references": [
+        "Assembly-CSharp",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
