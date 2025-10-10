@@ -47,7 +47,7 @@ namespace Begin.AI {
             if (Random.value <= chance) {
                 ItemDB.Warmup();
                 var pick = ItemDB.All().OrderBy(_ => Random.value).FirstOrDefault();
-                if (pick != null) InventoryService.Give(pick.id);
+                if (pick != null) InventoryService.TryAdd(pick.id);
             }
 
             // XP

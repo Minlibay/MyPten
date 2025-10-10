@@ -31,7 +31,9 @@ namespace Begin.Economy {
         public bool Buy(string id) {
             var def = ItemDB.Get(id); if (def == null) return false;
             int price = Price(def);
-            if (Currency.TrySpend(price)) { InventoryService.Give(id); return true; }
+            if (!Currency.TrySpend(price)) return false;
+            if (InventoryService.TryAdd(id)) return true;
+            Currency.Give(price);
             return false;
         }
 
@@ -42,7 +44,16 @@ namespace Begin.Economy {
 
         public bool Sell(string id) {
             int p = SellPrice(id);
-            InventoryService.Remove(id);
+            if (!InventoryService.Remove(id)) return false;
+            Currency.Give(p);
+            return true;
+        }
+
+        public bool SellSlot(int slotIndex) {
+            var slot = InventoryService.GetSlot(slotIndex);
+            if (slot.IsEmpty || slot.Definition == null) return false;
+            int p = SellPrice(slot.Definition.id);
+            if (!InventoryService.TryConsumeSlot(slotIndex)) return false;
             Currency.Give(p);
             return true;
         }
