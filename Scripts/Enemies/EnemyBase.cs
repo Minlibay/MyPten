@@ -21,7 +21,12 @@ namespace Begin.AI {
 
         public virtual void Init(Transform t) { target = t; }
 
-        protected bool HasTarget() => target != null;
+        protected bool HasTarget() {
+            if (target) return true;
+            var found = GameObject.FindWithTag("Player");
+            if (found) target = found.transform;
+            return target != null;
+        }
 
         protected Vector3 DirToTarget(out float dist) {
             var d = target.position - transform.position; d.y = 0f;
