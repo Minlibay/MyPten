@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: vita_05
+  m_EditorClassIdentifier: Assembly-CSharp:Begin.Talents:TalentNode
+  id: vita_05
+  title: "Живучесть 5"
+  description: Каждый ранг увеличивает максимальное здоровье.
+  type: MaxHP
+  maxRank: 4
+  valuesPerRank:
+  - 36
+  - 72
+  - 108
+  - 144
+  requirements:
+    - nodeId: vita_04
+      requiredRank: 3

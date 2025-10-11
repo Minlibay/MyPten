@@ -1,4 +1,5 @@
 using UnityEngine;
+using Begin.Economy;
 
 namespace Begin.Enemies {
     [CreateAssetMenu(menuName="Begin/Enemy Definition")]
@@ -16,6 +17,7 @@ namespace Begin.Enemies {
         public int goldMin = 1;
         public int goldMax = 3;
         [Range(0f,1f)] public float itemDropChance = 0.15f;
+        public DropTable dropTable;
 
         [Header("Prefab")]
         public GameObject prefab; // визуальный префаб (без логики)

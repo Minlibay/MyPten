@@ -73,9 +73,9 @@ namespace Begin.EditorTools {
             ui.pointsText = points;
             ui.respecButton = respecBtn;
 
-            // подключим дерево (создай SampleTree)
-            var tree = Resources.Load<Begin.Talents.TalentTree>("Talents/SampleTree");
-            if (!tree) Debug.LogWarning("SampleTree не найден. Создай через Tools/Begin/Create ▸ Sample Talent Tree");
+            // подключим основное дерево талантов
+            var tree = Resources.Load<Begin.Talents.TalentTree>("Talents/CompleteTree");
+            if (!tree) Debug.LogWarning("CompleteTree не найден. Сгенерируй его через Tools/Talents/Batch Generator.");
             ui.tree = tree;
 
             Selection.activeGameObject = card;

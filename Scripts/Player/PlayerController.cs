@@ -1,4 +1,5 @@
 using UnityEngine;
+using Begin.PlayerData;
 
 namespace Begin.Control {
     [RequireComponent(typeof(CharacterController))]
@@ -6,8 +7,25 @@ namespace Begin.Control {
         public float moveSpeed = 6f;
         public Camera cam;
         private CharacterController cc;
+        float _baseMoveSpeed;
 
-        void Awake() { cc = GetComponent<CharacterController>(); }
+        void Awake() {
+            cc = GetComponent<CharacterController>();
+            _baseMoveSpeed = moveSpeed;
+        }
+
+        void OnEnable() {
+            PlayerStatService.OnChanged += HandleStatsChanged;
+            HandleStatsChanged(PlayerStatService.Current);
+        }
+
+        void OnDisable() {
+            PlayerStatService.OnChanged -= HandleStatsChanged;
+        }
+
+        void HandleStatsChanged(PlayerDerivedStats stats) {
+            moveSpeed = Mathf.Max(_baseMoveSpeed, stats.MoveSpeed);
+        }
 
         void Update() {
             // WASD

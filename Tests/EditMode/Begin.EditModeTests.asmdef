@@ -1,0 +1,20 @@
+{
+    "name": "Begin.EditModeTests",
+    "rootNamespace": "Begin.Tests",
+    "references": [
+        "GUID:6c6c5a0f4c9e4f7ca00e51fb0f2f07e2"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
