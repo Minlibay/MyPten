@@ -21,6 +21,19 @@ namespace Begin.PlayerData {
             public int rank;
         }
 
+        [Serializable]
+        public class InventoryItemRecord {
+            public string itemId;
+            public int quantity = 0;
+            public string metadataJson;
+
+            public void Clear() {
+                itemId = null;
+                quantity = 0;
+                metadataJson = null;
+            }
+        }
+
         // Новые поля
         public int gold = 0;
         public int seed = 0;
@@ -28,6 +41,8 @@ namespace Begin.PlayerData {
         public int xp = 0;
         public int talentPoints = 0;
         public List<string> inventoryItems = new();
+        public List<InventoryItemRecord> inventoryStacks = new();
+        public int inventoryCapacity = 24;
         public List<EquippedItemRecord> equippedItems = new();
         public List<TalentRankRecord> talentRanks = new();
 
@@ -57,6 +72,8 @@ namespace Begin.PlayerData {
                 xp = 0,
                 talentPoints = 0,
                 inventoryItems = new List<string>(),
+                inventoryStacks = new List<InventoryItemRecord>(),
+                inventoryCapacity = 24,
                 equippedItems = new List<EquippedItemRecord>(),
                 talentRanks = new List<TalentRankRecord>()
             };
@@ -70,16 +87,47 @@ namespace Begin.PlayerData {
             playerName ??= string.Empty;
             classId ??= string.Empty;
             if (inventoryItems == null) inventoryItems = new List<string>();
+            if (inventoryStacks == null) inventoryStacks = new List<InventoryItemRecord>();
             if (equippedItems == null) equippedItems = new List<EquippedItemRecord>();
             if (talentRanks == null) talentRanks = new List<TalentRankRecord>();
             gold = Math.Max(0, gold);
             level = Math.Max(1, level);
             xp = Math.Max(0, xp);
             talentPoints = Math.Max(0, talentPoints);
+            inventoryCapacity = Math.Max(1, inventoryCapacity);
+
+            // миграция старого списка строковых ID
+            if (inventoryStacks.Count == 0 && inventoryItems.Count > 0) {
+                foreach (var id in inventoryItems) {
+                    if (string.IsNullOrEmpty(id)) continue;
+                    inventoryStacks.Add(new InventoryItemRecord { itemId = id, quantity = 1 });
+                }
+                inventoryItems.Clear();
+            }
 
             // удалить пустые записи, чтобы не плодить мусор
             equippedItems.RemoveAll(e => e == null || string.IsNullOrEmpty(e.slot) || string.IsNullOrEmpty(e.itemId));
             talentRanks.RemoveAll(t => t == null || string.IsNullOrEmpty(t.talentId) || t.rank <= 0);
+
+            // поддерживать размер инвентаря
+            for (int i = inventoryStacks.Count; i < inventoryCapacity; i++)
+                inventoryStacks.Add(new InventoryItemRecord());
+            if (inventoryStacks.Count > inventoryCapacity)
+                inventoryStacks.RemoveRange(inventoryCapacity, inventoryStacks.Count - inventoryCapacity);
+
+            for (int i = 0; i < inventoryStacks.Count; i++) {
+                var record = inventoryStacks[i];
+                if (record == null) {
+                    inventoryStacks[i] = new InventoryItemRecord();
+                    continue;
+                }
+
+                if (string.IsNullOrEmpty(record.itemId) || record.quantity <= 0) {
+                    record.Clear();
+                } else {
+                    record.quantity = Math.Max(1, record.quantity);
+                }
+            }
         }
     }
 }
