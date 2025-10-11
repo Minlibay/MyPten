@@ -136,7 +136,7 @@ namespace Begin.Control {
 #if UNITY_EDITOR
         void Reset() {
             if (!followTarget) {
-                var player = FindObjectOfType<Player.PlayerController>();
+                var player = FindObjectOfType<PlayerController>();
                 if (player) {
                     followTarget = player.transform;
                 }
