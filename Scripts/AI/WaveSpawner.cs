@@ -9,6 +9,9 @@ namespace Begin.AI {
     public class WaveSpawner : MonoBehaviour {
         [Header("Setup")]
         public WaveTable table;
+        [Header("Stages")]
+        public WaveStageSet stageSet;
+        [Min(1)] public int stageIndex = 1;
         public Transform player;
         public Vector2 arenaMin = new Vector2(-10, -10);
         public Vector2 arenaMax = new Vector2( 10,  10);
@@ -18,10 +21,13 @@ namespace Begin.AI {
         public System.Action onAllCleared;
         public System.Action<int,int> onWaveChanged; // (current, total)
 
-        public int totalWaves => table ? table.TotalWaves : 0;
+        public int totalWaves => activePlan != null
+            ? activePlan.TotalWaves
+            : stageSet ? stageSet.GetTotalWaves(stageIndex, table) : table ? table.TotalWaves : 0;
 
         readonly List<GameObject> alive = new();
         static readonly Dictionary<string,int> _poolCapacities = new();
+        WaveStageSet.WaveStagePlan activePlan;
 
         void Start() {
             if (!player) player = GameObject.FindGameObjectWithTag("Player")?.transform;
@@ -29,8 +35,6 @@ namespace Begin.AI {
         }
 
         IEnumerator Run() {
-            if (!table) yield break;
-
             // дождаться появления игрока (например, если он создаётся менеджером сцены)
             while (!player) {
                 var found = GameObject.FindGameObjectWithTag("Player");
@@ -38,9 +42,14 @@ namespace Begin.AI {
                 else yield return null;
             }
 
-            PreparePools();
+            activePlan = BuildPlan();
+            if (activePlan == null || (activePlan.normalWaves.Count == 0 && !HasBossWave(activePlan))) {
+                yield break;
+            }
 
-            int total = table.TotalWaves;
+            PreparePools(activePlan);
+
+            int total = activePlan.TotalWaves;
             for (int i = 0; i < total; i++) {
                 // сообщаем HUD о смене волны
                 onWaveChanged?.Invoke(i + 1, total);
@@ -48,12 +57,12 @@ namespace Begin.AI {
                 // начинаем волну с чистого списка живых
                 alive.Clear();
 
-                if (i < table.waves.Count) {
-                    SpawnEntries(table.waves[i].entries);
+                if (i < activePlan.normalWaves.Count) {
+                    SpawnEntries(activePlan.normalWaves[i].entries);
                 } else {
-                    SpawnEntries(table.bossSupport);
-                    if (table.finalBoss) {
-                        var boss = SpawnEnemy(table.finalBoss, RandomPos());
+                    SpawnEntries(activePlan.bossSupport);
+                    if (activePlan.includeBoss && activePlan.boss) {
+                        var boss = SpawnEnemy(activePlan.boss, RandomPos());
                         if (boss) alive.Add(boss);
                     }
                 }
@@ -70,7 +79,29 @@ namespace Begin.AI {
             onAllCleared?.Invoke();
         }
 
-        void PreparePools() {
+        WaveStageSet.WaveStagePlan BuildPlan() {
+            if (stageSet) {
+                var plan = stageSet.BuildStagePlan(stageIndex, table);
+                if (plan != null && plan.sourceTable == null && !table) {
+                    // если план не смог подобрать таблицу, но у нас есть table, подставляем её
+                    plan.sourceTable = table;
+                }
+                return plan;
+            }
+
+            if (!table) return null;
+
+            var fallback = new WaveStageSet.WaveStagePlan {
+                sourceTable = table,
+                includeBoss = table.finalBoss != null,
+                boss = table.finalBoss,
+                bossSupport = table.bossSupport != null ? new List<WaveEntry>(table.bossSupport) : new List<WaveEntry>()
+            };
+            fallback.normalWaves.AddRange(table.waves);
+            return fallback;
+        }
+
+        void PreparePools(WaveStageSet.WaveStagePlan plan) {
             var required = new Dictionary<EnemyDefinition, int>();
 
             void Accumulate(IEnumerable<WaveEntry> entries) {
@@ -87,11 +118,17 @@ namespace Begin.AI {
                 }
             }
 
-            foreach (var row in table.waves) Accumulate(row.entries);
-            Accumulate(table.bossSupport);
-            if (table.finalBoss) required[table.finalBoss] = Mathf.Max(required.TryGetValue(table.finalBoss, out var have) ? have : 0, 1);
+            foreach (var row in plan.normalWaves) Accumulate(row.entries);
+            Accumulate(plan.bossSupport);
+            if (plan.includeBoss && plan.boss) required[plan.boss] = Mathf.Max(required.TryGetValue(plan.boss, out var have) ? have : 0, 1);
 
             foreach (var kv in required) EnsurePoolCapacity(kv.Key, kv.Value + 2);
+        }
+
+        bool HasBossWave(WaveStageSet.WaveStagePlan plan) {
+            if (plan == null || !plan.includeBoss) return false;
+            if (plan.boss) return true;
+            return plan.bossSupport != null && plan.bossSupport.Count > 0;
         }
 
         void SpawnEntries(IEnumerable<WaveEntry> entries) {

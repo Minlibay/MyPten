@@ -1,8 +1,6 @@
 using UnityEngine;
 using Begin.Core;
-using Begin.Items;
 using Begin.PlayerData;
-using Begin.Talents;
 
 namespace Begin.Combat {
     [RequireComponent(typeof(CharacterController))]
@@ -11,29 +9,17 @@ namespace Begin.Combat {
         public float max;
         public float current;
 
-        System.Action<PlayerProfile> _profileChangedHandler;
-
         void OnEnable() {
-            Recalc();
-            InventoryService.OnChanged += Recalc;
-            TalentService.OnChanged += Recalc;
-            _profileChangedHandler ??= _ => Recalc();
-            GameManager.OnProfileChanged += _profileChangedHandler;
+            PlayerStatService.OnChanged += HandleStatsChanged;
+            HandleStatsChanged(PlayerStatService.Current);
         }
+
         void OnDisable() {
-            InventoryService.OnChanged -= Recalc;
-            TalentService.OnChanged -= Recalc;
-            if (_profileChangedHandler != null) GameManager.OnProfileChanged -= _profileChangedHandler;
+            PlayerStatService.OnChanged -= HandleStatsChanged;
         }
 
-        void Recalc() {
-            int baseStat = baseHP;
-            var cls = GameManager.I ? GameManager.I.CurrentClass : null;
-            if (cls != null) baseStat = cls.baseHP;
-
-            var bonusEquip = InventoryService.TotalHpBonus(ItemDB.Get);
-            var bonusTalent = TalentService.Total(TalentType.MaxHP);
-            max = baseStat + bonusEquip + bonusTalent;
+        void HandleStatsChanged(PlayerDerivedStats stats) {
+            max = Mathf.Max(baseHP, stats.MaxHealth);
             if (current <= 0 || current > max) current = max;
         }
 

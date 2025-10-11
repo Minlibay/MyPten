@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Begin.Talents {
-    public enum TalentType { MaxHP, Damage, GoldGain, ItemDropChance, VendorDiscount, MoveSpeed }
+    public enum TalentType { MaxHP, Damage, GoldGain, ItemDropChance, VendorDiscount, MoveSpeed, Strength, Dexterity, Intelligence, AttackSpeed, CooldownReduction }
 
     [Serializable]
     public class TalentRequirement {

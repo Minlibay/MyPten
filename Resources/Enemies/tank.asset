@@ -22,4 +22,5 @@ MonoBehaviour:
   goldMin: 2
   goldMax: 5
   itemDropChance: 0.18
+  dropTable: {fileID: 11400000, guid: 5e6b45926d1345d3957bdd299a26320d, type: 2}
   prefab: {fileID: 0}
