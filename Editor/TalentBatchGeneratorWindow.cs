@@ -107,7 +107,7 @@ namespace Begin.EditorTools {
                 node.maxRank = record.MaxRank;
                 node.valuesPerRank = record.Values;
                 node.requirements.Clear();
-                node.requirements.AddRange(record.Requirements.Select(req => new TalentRequirement {
+                node.requirements.AddRange(record.Requirements.Select(req => new TalentRequirementData {
                     nodeId = req.nodeId,
                     requiredRank = req.requiredRank
                 }));
