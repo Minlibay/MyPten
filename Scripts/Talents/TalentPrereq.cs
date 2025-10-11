@@ -11,4 +11,7 @@ namespace Begin.Talents {
         public string nodeId;
         public int requiredRank = 1;
     }
+
+    [CreateAssetMenu(menuName = "Begin/Talents/Legacy Requirement"), System.Obsolete("Use inline requirements on TalentNode instead.")]
+    public class TalentRequirement : TalentPrereq { }
 }
