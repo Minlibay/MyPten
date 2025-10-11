@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: fortune_08
+  m_EditorClassIdentifier: Assembly-CSharp:Begin.Talents:TalentNode
+  id: fortune_08
+  title: "Удача 8"
+  description: Повышает шанс выпадения трофеев.
+  type: ItemDropChance
+  maxRank: 3
+  valuesPerRank:
+  - 5.0
+  - 10.0
+  - 15.0
+  requirements:
+    - nodeId: fortune_07
+      requiredRank: 3

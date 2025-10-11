@@ -1677,7 +1677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Begin.UI.TalentsUI
   tree: {fileID: 11400000, guid: 0bbce59d24040d54598c563d4568b8db, type: 2}
-  treeResourcePath: Talents/SampleTree
+  treeResourcePath: Talents/CompleteTree
   listContainer: {fileID: 62439707}
   rowPrefab: {fileID: 344964413}
   pointsText: {fileID: 1373160864}

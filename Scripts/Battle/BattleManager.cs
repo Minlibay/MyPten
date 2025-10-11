@@ -26,6 +26,8 @@ namespace Begin.Battleflow {
 
         void Start() {
             EnsureEventSystem();
+            var defaultTree = Resources.Load<TalentTree>("Talents/CompleteTree");
+            if (defaultTree) TalentService.BindTree(defaultTree);
             // карта
             var mapGO = new GameObject("Map");
             var gen = mapGO.AddComponent<MapGeneratorSimple>();

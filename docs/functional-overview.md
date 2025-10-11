@@ -37,7 +37,7 @@ This document provides a catalog of the current gameplay, economy, UI, and tooli
 - **UI bindings** (`Scripts/UI/InventoryUI.cs`, `Scripts/UI/InventoryUIV2.cs`): renders slot grids, previews, and equips; responds to inventory events to update slots efficiently.
 
 ## Talents & Progression
-- **Talent definitions** (`Scripts/Talents/TalentDefinitions.cs`, assets under `Resources/Talents`): describes talent trees, stat bonuses, and prerequisites (`Scripts/Talents/TalentPrereq.cs`).
+- **Talent definitions** (`Scripts/Talents/TalentDefinitions.cs`, assets under `Resources/Talents/Expanded`): описывает дерево из 100 узлов, их требования и бонусы. Подробности о генерации из CSV — в `docs/talent-generation.md`.
 - **Talent service** (`Scripts/Talents/TalentService.cs`): evaluates prerequisites, grants/refunds talent points, and applies stat modifiers via the stat service.
 - **Progress tracking** (`Scripts/Progress/ProgressService.cs`, `Scripts/UI/ProgressUI.cs`): manages level XP thresholds and updates the UI when players advance.
 

@@ -9,7 +9,7 @@ namespace Begin.UI {
         public TalentTree tree;                   // закинем SampleTree
         [SerializeField]
         [Tooltip("Resources-путь для авто-поиска дерева, если поле tree пустое.")]
-        string treeResourcePath = "Talents/SampleTree";
+        string treeResourcePath = "Talents/CompleteTree";
         public RectTransform listContainer;       // куда класть строки
         public Button rowPrefab;                  // шаблон строки (выключен)
         public Text pointsText;
