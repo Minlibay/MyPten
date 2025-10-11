@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.Scripting.APIUpdating;
 
 namespace Begin.Talents {
     public enum TalentType { MaxHP, Damage, GoldGain, ItemDropChance, VendorDiscount, MoveSpeed, Strength, Dexterity, Intelligence, AttackSpeed, CooldownReduction }
 
     [Serializable]
-    [MovedFrom(true, sourceNamespace: "Begin.Talents", sourceAssembly: "Begin.Runtime", sourceClassName: "TalentRequirement")]
     public class TalentRequirementData {
         public string nodeId;   // id узла, который должен иметь ранг >= requiredRank
         public int requiredRank = 1;
@@ -23,9 +21,9 @@ namespace Begin.Talents {
         public TalentType type;
         public int maxRank = 3;
         public float[] valuesPerRank = new float[] { 5, 10, 15 };  // значение эффекта на рангах
-        [FormerlySerializedAs("requirements"), SerializeField]
+        [SerializeField]
         List<TalentRequirementData> _requirements = new();       // зависимости
-        [SerializeField, HideInInspector]
+        [FormerlySerializedAs("requirements"), SerializeField, HideInInspector]
         List<TalentRequirement> legacyRequirementAssets = new();
         [SerializeField, HideInInspector]
         List<TalentPrereq> legacyPrereqAssets = new();
