@@ -26,6 +26,8 @@ namespace Begin.Battleflow {
 
         void Start() {
             EnsureEventSystem();
+            var defaultTree = Resources.Load<TalentTree>("Talents/CompleteTree");
+            if (defaultTree) TalentService.BindTree(defaultTree);
             // карта
             var mapGO = new GameObject("Map");
             var gen = mapGO.AddComponent<MapGeneratorSimple>();
@@ -52,6 +54,8 @@ namespace Begin.Battleflow {
         spawner = spGO.AddComponent<WaveSpawner>();
         spawner.player = playerGO.transform;                              // цель для врагов
         spawner.table  = Resources.Load<Begin.AI.WaveTable>("Waves/SampleWaves"); // или перетащи в инспекторе
+        var stageConfig = Resources.Load<WaveStageSet>("Waves/SampleStageSet");
+        if (stageConfig) spawner.stageSet = stageConfig;
         spawner.delayBetweenWaves = 2f;
 
         // обновление HUD при смене волны (см. патч WaveSpawner ниже)

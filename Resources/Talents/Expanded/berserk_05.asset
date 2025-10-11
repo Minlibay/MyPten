@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99dd163b6dc73374eaff6b631ceb1b5b, type: 3}
+  m_Name: berserk_05
+  m_EditorClassIdentifier: Begin.Runtime:Begin.Talents:TalentNode
+  id: berserk_05
+  title: "Берсерк 5"
+  description: Увеличивает базовый урон оружия.
+  type: Damage
+  maxRank: 3
+  valuesPerRank:
+  - 20
+  - 40
+  - 60
+  requirements:
+    - nodeId: berserk_04
+      requiredRank: 2
