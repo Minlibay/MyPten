@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99dd163b6dc73374eaff6b631ceb1b5b, type: 3}
   m_Name: fortune_10
-  m_EditorClassIdentifier: Assembly-CSharp:Begin.Talents:TalentNode
+  m_EditorClassIdentifier: Begin.Runtime:Begin.Talents:TalentNode
   id: fortune_10
   title: "Удача 10"
   description: Повышает шанс выпадения трофеев.
