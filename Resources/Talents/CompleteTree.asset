@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99dd163b6dc73374eaff6b631ceb1b5b, type: 3}
+  m_Script: {fileID: 0}
   m_Name: CompleteTree
-  m_EditorClassIdentifier: Begin.Runtime:Begin.Talents:TalentTree
+  m_EditorClassIdentifier: Assembly-CSharp:Begin.Talents:TalentTree
   nodes:
   - {fileID: 11400000, guid: 0ee03bfa67a84e79802adc49b6d719dc, type: 2}
   - {fileID: 11400000, guid: 0e66f2cbb64d4c34b7ef877aee7fdb28, type: 2}
