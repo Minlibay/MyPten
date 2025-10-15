@@ -21,10 +21,13 @@ namespace Begin.Talents {
         public TalentType type;
         public int maxRank = 3;
         public float[] valuesPerRank = new float[] { 5, 10, 15 };  // значение эффекта на рангах
-        [SerializeField]
+
+        [FormerlySerializedAs("requires"), FormerlySerializedAs("requirements"), SerializeField]
         List<TalentRequirementData> _requirements = new();       // зависимости
-        [FormerlySerializedAs("requirements"), SerializeField, HideInInspector]
-        List<TalentRequirement> legacyRequirementAssets = new();
+
+        [SerializeField, HideInInspector]
+        List<TalentPrereq> legacyRequirementAssets = new();
+
         [SerializeField, HideInInspector]
         List<TalentPrereq> legacyPrereqAssets = new();
 
@@ -38,25 +41,11 @@ namespace Begin.Talents {
         }
 
         public IEnumerable<TalentRequirementData> EnumerateRequirements() {
-            if (_requirements != null) {
-                foreach (var req in _requirements) {
-                    if (req == null || string.IsNullOrEmpty(req.nodeId)) continue;
-                    yield return req;
-                }
-            }
+            if (_requirements == null) yield break;
 
-            if (legacyRequirementAssets != null) {
-                foreach (var legacy in legacyRequirementAssets) {
-                    if (legacy == null || string.IsNullOrEmpty(legacy.nodeId)) continue;
-                    yield return new TalentRequirementData { nodeId = legacy.nodeId, requiredRank = legacy.requiredRank };
-                }
-            }
-
-            if (legacyPrereqAssets != null) {
-                foreach (var legacy in legacyPrereqAssets) {
-                    if (legacy == null || string.IsNullOrEmpty(legacy.nodeId)) continue;
-                    yield return new TalentRequirementData { nodeId = legacy.nodeId, requiredRank = legacy.requiredRank };
-                }
+            foreach (var req in _requirements) {
+                if (req == null || string.IsNullOrEmpty(req.nodeId)) continue;
+                yield return req;
             }
         }
 
