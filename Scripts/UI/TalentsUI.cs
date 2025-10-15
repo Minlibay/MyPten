@@ -43,7 +43,18 @@ namespace Begin.UI {
 
             foreach (Transform t in listContainer) Destroy(t.gameObject);
 
+            if (tree.nodes == null || tree.nodes.Count == 0) {
+                Debug.LogWarning("TalentsUI: выбранное дерево не содержит узлов.", this);
+                return;
+            }
+
+            int missingNodes = 0;
+
             foreach (var node in tree.nodes) {
+                if (node == null) {
+                    missingNodes++;
+                    continue;
+                }
                 var b = Instantiate(rowPrefab, listContainer);
                 b.gameObject.SetActive(true);
 
@@ -63,6 +74,10 @@ namespace Begin.UI {
                 b.interactable = can;
 
                 b.onClick.AddListener(() => { if (TalentService.Upgrade(node)) Rebuild(); });
+            }
+
+            if (missingNodes > 0) {
+                Debug.LogWarning($"TalentsUI: пропущено узлов: {missingNodes}. Проверь CompleteTree.asset.", this);
             }
 
             if (pointsText) pointsText.text = $"Очки талантов: {TalentService.Points}";
