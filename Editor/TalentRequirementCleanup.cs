@@ -44,7 +44,7 @@ namespace Begin.Talents.Editor {
                             var nodeId = entry.FindPropertyRelative("nodeId")?.stringValue ?? string.Empty;
                             var rank = entry.FindPropertyRelative("requiredRank")?.intValue ?? 1;
                             if (!string.IsNullOrEmpty(nodeId)) {
-                                existing.Add((nodeId, rank));
+                                existing.Add((nodeId: nodeId, rank: rank));
                             }
                         }
                     }
@@ -100,7 +100,7 @@ namespace Begin.Talents.Editor {
                 var element = legacyProp.GetArrayElementAtIndex(i);
                 var prerequisite = element.objectReferenceValue as TalentPrereq;
                 if (prerequisite != null && !string.IsNullOrEmpty(prerequisite.nodeId)) {
-                    var key = (prerequisite.nodeId, Mathf.Max(1, prerequisite.requiredRank));
+                    var key = (nodeId: prerequisite.nodeId, rank: Mathf.Max(1, prerequisite.requiredRank));
                     if (existing.Add(key)) {
                         AppendRequirement(requirementsProp, key.nodeId, key.rank);
                         changed = true;
