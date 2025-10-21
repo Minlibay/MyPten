@@ -20,3 +20,4 @@ MonoBehaviour:
   hpBonus: 0
   damageBonus: 10
   basePrice: 25
+  weaponArchetype: 1

@@ -13,7 +13,25 @@ namespace Begin.Control {
         [SerializeField, Min(0f)] float collisionRadius = 0.35f;
         [SerializeField, Min(0f)] float collisionBuffer = 0.05f;
 
+        [Header("Orbit Controls")]
+        [SerializeField] bool enableOrbitControls = true;
+        [SerializeField] bool requireRightMouseToOrbit = true;
+        [SerializeField, Range(10f, 720f)] float orbitSensitivity = 240f;
+        [SerializeField] Vector2 pitchLimits = new Vector2(-35f, 65f);
+        [SerializeField] bool invertY = false;
+
+        [Header("Zoom")]
+        [SerializeField] bool enableZoom = true;
+        [SerializeField, Min(0.1f)] float zoomSensitivity = 4f;
+        [SerializeField, Min(0.1f)] float minDistance = 2.5f;
+        [SerializeField, Min(0.1f)] float maxDistance = 16f;
+
         bool _initialized;
+        bool _orbitInitialized;
+        float _orbitYaw;
+        float _orbitPitch;
+        float _currentDistance;
+        Vector3 _runtimeOffset;
 
         public Transform target {
             get => followTarget;
@@ -31,6 +49,21 @@ namespace Begin.Control {
             maxLagDistance = Mathf.Max(0.01f, maxLagDistance);
             collisionRadius = Mathf.Max(0f, collisionRadius);
             collisionBuffer = Mathf.Max(0f, collisionBuffer);
+            zoomSensitivity = Mathf.Max(0.01f, zoomSensitivity);
+            minDistance = Mathf.Max(0.01f, minDistance);
+            maxDistance = Mathf.Max(minDistance, maxDistance);
+            pitchLimits.x = Mathf.Clamp(pitchLimits.x, -89f, 89f);
+            pitchLimits.y = Mathf.Clamp(pitchLimits.y, -89f, 89f);
+            if (pitchLimits.x > pitchLimits.y) {
+                (pitchLimits.x, pitchLimits.y) = (pitchLimits.y, pitchLimits.x);
+            }
+            _runtimeOffset = offset;
+            SyncOrbitWithOffset();
+        }
+
+        void Awake() {
+            _runtimeOffset = offset;
+            SyncOrbitWithOffset();
         }
 
         void LateUpdate() {
@@ -39,8 +72,14 @@ namespace Begin.Control {
                 return;
             }
 
+            if (enableOrbitControls) {
+                UpdateOrbitInput();
+            }
+
             Vector3 focusPoint = currentTarget.position + focusOffset;
-            Vector3 desiredPosition = focusPoint + offset;
+            Vector3 desiredOffset = enableOrbitControls ? ComputeOrbitOffset() : offset;
+            _runtimeOffset = desiredOffset;
+            Vector3 desiredPosition = focusPoint + desiredOffset;
             desiredPosition = ResolveCollisions(currentTarget, focusPoint, desiredPosition);
 
             if (!_initialized) {
@@ -55,6 +94,66 @@ namespace Begin.Control {
 
             Quaternion desiredRotation = Quaternion.LookRotation(focusPoint - transform.position, Vector3.up);
             transform.rotation = DampRotation(transform.rotation, desiredRotation);
+        }
+
+        void SyncOrbitWithOffset() {
+            Vector3 sourceOffset = _runtimeOffset.sqrMagnitude > 0.0001f ? _runtimeOffset : offset;
+            _currentDistance = Mathf.Max(0.01f, sourceOffset.magnitude);
+            if (_currentDistance <= 0.01f) {
+                _currentDistance = 5f;
+                sourceOffset = new Vector3(0f, 2f, -_currentDistance);
+            }
+
+            Vector3 direction = sourceOffset / _currentDistance;
+            direction = direction.sqrMagnitude > 0.0001f ? direction : new Vector3(0f, 0f, -1f);
+            _orbitPitch = Mathf.Asin(Mathf.Clamp(direction.y, -1f, 1f)) * Mathf.Rad2Deg;
+            _orbitYaw = Mathf.Atan2(direction.x, -direction.z) * Mathf.Rad2Deg;
+            _orbitPitch = Mathf.Clamp(_orbitPitch, pitchLimits.x, pitchLimits.y);
+            _orbitInitialized = true;
+        }
+
+        void UpdateOrbitInput() {
+            if (!_orbitInitialized) {
+                SyncOrbitWithOffset();
+            }
+
+            bool canRotate = !requireRightMouseToOrbit || Input.GetMouseButton(1);
+            float deltaTime = Time.unscaledDeltaTime;
+
+            if (canRotate) {
+                float mouseX = Input.GetAxisRaw("Mouse X");
+                float mouseY = Input.GetAxisRaw("Mouse Y");
+                if (Mathf.Abs(mouseX) > 0.0001f || Mathf.Abs(mouseY) > 0.0001f) {
+                    _orbitYaw += mouseX * orbitSensitivity * deltaTime;
+                    float yDelta = invertY ? mouseY : -mouseY;
+                    _orbitPitch += yDelta * orbitSensitivity * deltaTime;
+                    _orbitPitch = Mathf.Clamp(_orbitPitch, pitchLimits.x, pitchLimits.y);
+                }
+            }
+
+            if (enableZoom) {
+                float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
+                if (Mathf.Abs(scroll) > 0.0001f) {
+                    _currentDistance -= scroll * zoomSensitivity;
+                    _currentDistance = Mathf.Clamp(_currentDistance, minDistance, maxDistance);
+                }
+            }
+        }
+
+        Vector3 ComputeOrbitOffset() {
+            if (!_orbitInitialized) {
+                SyncOrbitWithOffset();
+            }
+
+            float yawRad = _orbitYaw * Mathf.Deg2Rad;
+            float pitchRad = _orbitPitch * Mathf.Deg2Rad;
+            float cosPitch = Mathf.Cos(pitchRad);
+
+            Vector3 result;
+            result.x = Mathf.Sin(yawRad) * cosPitch * _currentDistance;
+            result.y = Mathf.Sin(pitchRad) * _currentDistance;
+            result.z = -Mathf.Cos(yawRad) * cosPitch * _currentDistance;
+            return result;
         }
 
         Vector3 DampPosition(Vector3 current, Vector3 desired) {
