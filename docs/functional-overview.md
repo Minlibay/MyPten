@@ -16,7 +16,7 @@ This document provides a catalog of the current gameplay, economy, UI, and tooli
 - **Camera** (`Scripts/Player/CameraFollow.cs`): smooth follow camera with centering, collision handling, and inspector-tunable offsets/lag limits. Use the Reset function in the inspector to auto-bind the player target.
 
 ## Combat & Abilities
-- **Attack execution** (`Scripts/Combat/SimpleAttack.cs`): drives attack timing, hit detection, and projectile spawning using player stats for cadence and damage scaling. Extend by adding new ability behaviours or altering damage formulas.
+- **Attack execution** (`Scripts/Combat/SimpleAttack.cs`): orchestrates stat-driven melee swings with configurable one-hand and two-hand profiles, selecting cone or single-target hits based on the equipped weapon archetype. Extend by tweaking the attack profiles or adding new archetypes.
 - **Health system** (`Scripts/Combat/Health.cs`): shared component for entities with hit points, exposing events for damage and death. Hook into `Health.OnDeath` to trigger loot drops or UI updates.
 
 ## Enemy & AI Systems
