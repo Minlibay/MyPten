@@ -1,6 +1,7 @@
 using UnityEngine;
 using Begin.PlayerData;
 using Begin.Player;
+using Begin.Combat;
 
 namespace Begin.Control {
     [RequireComponent(typeof(CharacterController))]
@@ -21,7 +22,9 @@ namespace Begin.Control {
         [SerializeField] PlayerAnimationDriver.AnimationKey jumpFromIdle = PlayerAnimationDriver.AnimationKey.Jump;
         [SerializeField] PlayerAnimationDriver.AnimationKey jumpWhileMoving = PlayerAnimationDriver.AnimationKey.JumpWhileRunning;
         [SerializeField] PlayerAnimationDriver.AnimationKey attackAction = PlayerAnimationDriver.AnimationKey.OneHandedMeleeAttack;
+        [SerializeField] PlayerAnimationDriver.AnimationKey heavyAttackAction = PlayerAnimationDriver.AnimationKey.TwoHandedMeleeAttack;
         [SerializeField] KeyCode attackKey = KeyCode.Mouse0;
+        [SerializeField] SimpleAttack meleeCombat;
 
         CharacterController cc;
         float _baseMoveSpeed;
@@ -31,9 +34,11 @@ namespace Begin.Control {
         void Awake() {
             cc = GetComponent<CharacterController>();
             animationDriver = animationDriver ? animationDriver : GetComponent<PlayerAnimationDriver>();
+            meleeCombat = meleeCombat ? meleeCombat : GetComponent<SimpleAttack>();
             cam = cam ? cam : Camera.main;
             _baseMoveSpeed = moveSpeed;
             ClampTunableParameters();
+            SyncCombatHooks();
         }
 
         void OnEnable() {
@@ -47,6 +52,9 @@ namespace Begin.Control {
 
         void OnValidate() {
             ClampTunableParameters();
+            if (!Application.isPlaying) {
+                SyncCombatHooks();
+            }
         }
 
         void ClampTunableParameters() {
@@ -125,6 +133,9 @@ namespace Begin.Control {
 
         void HandleActions() {
             if (Input.GetKeyDown(attackKey)) {
+                if (meleeCombat && meleeCombat.TryAttack()) {
+                    return;
+                }
                 TriggerAttackAnimation();
             }
         }
@@ -154,14 +165,33 @@ namespace Begin.Control {
         }
 
         void TriggerAttackAnimation() {
+            TriggerAttackAnimation(attackAction);
+        }
+
+        void TriggerAttackAnimation(PlayerAnimationDriver.AnimationKey key) {
             if (!animationDriver) return;
-            animationDriver.PlayAction(attackAction);
+            animationDriver.PlayAction(key);
+        }
+
+        void SyncCombatHooks() {
+            if (!animationDriver) {
+                animationDriver = GetComponent<PlayerAnimationDriver>();
+            }
+            if (!meleeCombat) {
+                meleeCombat = GetComponent<SimpleAttack>();
+            }
+            if (meleeCombat) {
+                meleeCombat.ConfigureAnimationDriver(animationDriver);
+                meleeCombat.ConfigureAnimationKeys(attackAction, heavyAttackAction);
+            }
         }
 
 #if UNITY_EDITOR
         void Reset() {
             cam = Camera.main;
             animationDriver = GetComponent<PlayerAnimationDriver>();
+            meleeCombat = GetComponent<SimpleAttack>();
+            SyncCombatHooks();
         }
 #endif
     }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Begin.Combat;
 
 namespace Begin.Items {
     public enum EquipmentSlot { None, Head, Chest, Weapon }
@@ -20,6 +21,9 @@ namespace Begin.Items {
         public int strengthBonus;
         public int dexterityBonus;
         public int intelligenceBonus;
+
+        [Header("Weapon")]
+        public WeaponArchetype weaponArchetype = WeaponArchetype.None;
 
         [Header("Stacking")]
         public bool stackable = false;
