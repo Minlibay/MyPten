@@ -8,6 +8,7 @@ namespace Begin.Control {
         [SerializeField] Vector3 focusOffset = new Vector3(0f, 1.6f, 0f);
         [SerializeField, Min(0f)] float positionResponsiveness = 10f;
         [SerializeField, Min(0f)] float rotationResponsiveness = 12f;
+        [SerializeField] bool hardLockToTarget = true;
         [SerializeField, Min(0f)] float maxLagDistance = 0.5f;
         [SerializeField] LayerMask collisionMask = Physics.DefaultRaycastLayers;
         [SerializeField, Min(0f)] float collisionRadius = 0.35f;
@@ -82,9 +83,16 @@ namespace Begin.Control {
             Vector3 desiredPosition = focusPoint + desiredOffset;
             desiredPosition = ResolveCollisions(currentTarget, focusPoint, desiredPosition);
 
+            Quaternion desiredRotation = Quaternion.LookRotation(focusPoint - desiredPosition, Vector3.up);
+
+            if (hardLockToTarget) {
+                transform.SetPositionAndRotation(desiredPosition, desiredRotation);
+                _initialized = true;
+                return;
+            }
+
             if (!_initialized) {
-                transform.position = desiredPosition;
-                transform.rotation = Quaternion.LookRotation(focusPoint - transform.position, Vector3.up);
+                transform.SetPositionAndRotation(desiredPosition, desiredRotation);
                 _initialized = true;
                 return;
             }
@@ -92,7 +100,6 @@ namespace Begin.Control {
             transform.position = DampPosition(transform.position, desiredPosition);
             EnforceLagLimit(focusPoint, desiredPosition);
 
-            Quaternion desiredRotation = Quaternion.LookRotation(focusPoint - transform.position, Vector3.up);
             transform.rotation = DampRotation(transform.rotation, desiredRotation);
         }
 
